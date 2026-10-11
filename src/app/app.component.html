@@ -2,7 +2,6 @@
   <header class="topbar">
     <div>
       <p class="eyebrow">Spaced repetition</p>
-      <!-- <h1>jMemorize Angular</h1> -->
     </div>
     <div class="file-actions">
       <label class="secondary-button">
@@ -46,17 +45,22 @@
             <div class="side-label">Question</div>
             <div class="card-content" [innerHTML]="card.frontside"></div>
 
-            @if (revealedCard(); as answered) {
+            @if (answerVisible()) {
               <div class="divider"></div>
               <div class="side-label">Answer</div>
-              <div class="card-content answer" [innerHTML]="answered.backside"></div>
-              <div class="result" [class.yes]="lastAnswerWasYes()" [class.no]="lastAnswerWasYes() === false">
-                {{ lastAnswerWasYes() ? 'Moved to the next deck' : 'Moved to Deck 1' }}
-              </div>
+              <div class="card-content answer" [innerHTML]="revealedCard()?.backside ?? card.backside"></div>
+
+              @if (revealedCard()) {
+                <div class="result" [class.yes]="lastAnswerWasYes()" [class.no]="lastAnswerWasYes() === false">
+                  {{ lastAnswerWasYes() ? 'Moved to the next deck' : 'Moved to Deck 1' }}
+                </div>
+              }
             }
           </article>
 
-          @if (!revealedCard()) {
+          @if (!answerVisible()) {
+            <button class="show-answer-button" type="button" (click)="showAnswer()">Show answer</button>
+          } @else if (!revealedCard()) {
             <div class="answer-actions">
               <button class="no-button" type="button" (click)="answer(false)">No</button>
               <button class="yes-button" type="button" (click)="answer(true)">Yes</button>

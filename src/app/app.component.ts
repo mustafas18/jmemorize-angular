@@ -12,6 +12,7 @@ export class AppComponent {
   readonly lesson = inject(LessonService);
   readonly queue = signal<FlashCard[]>([]);
   readonly currentIndex = signal(0);
+  readonly answerVisible = signal(false);
   readonly revealedCard = signal<FlashCard | null>(null);
   readonly lastAnswerWasYes = signal<boolean | null>(null);
   readonly error = signal('');
@@ -29,13 +30,19 @@ export class AppComponent {
     this.lesson.selectedDeckIndex.set(index);
     this.queue.set(this.lesson.dueCards(index));
     this.currentIndex.set(0);
+    this.answerVisible.set(false);
     this.revealedCard.set(null);
     this.lastAnswerWasYes.set(null);
   }
 
+  showAnswer(): void {
+    if (!this.currentCard() || this.revealedCard()) return;
+    this.answerVisible.set(true);
+  }
+
   answer(remembered: boolean): void {
     const card = this.currentCard();
-    if (!card || this.revealedCard()) return;
+    if (!card || !this.answerVisible() || this.revealedCard()) return;
     const answered = this.lesson.answer(card.id, remembered);
     if (!answered) return;
     this.revealedCard.set(answered);
@@ -44,6 +51,7 @@ export class AppComponent {
 
   nextCard(): void {
     this.currentIndex.update(index => index + 1);
+    this.answerVisible.set(false);
     this.revealedCard.set(null);
     this.lastAnswerWasYes.set(null);
   }
