@@ -1,0 +1,79 @@
+<div class="shell">
+  <header class="topbar">
+    <div>
+      <p class="eyebrow">Spaced repetition</p>
+      <!-- <h1>jMemorize Angular</h1> -->
+    </div>
+    <div class="file-actions">
+      <label class="secondary-button">
+        Import XML
+        <input type="file" accept=".xml,text/xml,application/xml" (change)="importXml($event)">
+      </label>
+      <button class="secondary-button" type="button" (click)="exportXml()" [disabled]="!lesson.loaded()">Export XML</button>
+    </div>
+  </header>
+
+  @if (error()) {
+    <div class="error">{{ error() }}</div>
+  }
+
+  @if (lesson.loaded()) {
+    <main class="layout">
+      <aside class="sidebar">
+        <h2>Decks</h2>
+        <div class="deck-list">
+          @for (deck of lesson.decks(); track deck.index) {
+            <button
+              class="deck-button"
+              [class.active]="lesson.selectedDeckIndex() === deck.index"
+              type="button"
+              (click)="selectDeck(deck.index)">
+              <span>{{ deck.title }}</span>
+              <span class="count">{{ deck.due }} due / {{ deck.total }}</span>
+            </button>
+          }
+        </div>
+      </aside>
+
+      <section class="study">
+        <div class="study-meta">
+          <span>Deck {{ lesson.selectedDeckIndex() + 1 }}</span>
+          <span>{{ remaining() }} due</span>
+        </div>
+
+        @if (currentCard(); as card) {
+          <article class="flashcard">
+            <div class="side-label">Question</div>
+            <div class="card-content" [innerHTML]="card.frontside"></div>
+
+            @if (revealedCard(); as answered) {
+              <div class="divider"></div>
+              <div class="side-label">Answer</div>
+              <div class="card-content answer" [innerHTML]="answered.backside"></div>
+              <div class="result" [class.yes]="lastAnswerWasYes()" [class.no]="lastAnswerWasYes() === false">
+                {{ lastAnswerWasYes() ? 'Moved to the next deck' : 'Moved to Deck 1' }}
+              </div>
+            }
+          </article>
+
+          @if (!revealedCard()) {
+            <div class="answer-actions">
+              <button class="no-button" type="button" (click)="answer(false)">No</button>
+              <button class="yes-button" type="button" (click)="answer(true)">Yes</button>
+            </div>
+          } @else {
+            <button class="next-button" type="button" (click)="nextCard()">Next card</button>
+          }
+        } @else {
+          <div class="empty-state">
+            <div class="empty-icon">✓</div>
+            <h2>No expired cards in this deck</h2>
+            <p>Choose another deck, or come back after cards reach their DateExpired value.</p>
+          </div>
+        }
+      </section>
+    </main>
+  } @else {
+    <div class="loading">Loading lesson…</div>
+  }
+</div>
