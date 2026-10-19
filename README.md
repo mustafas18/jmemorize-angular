@@ -1,9 +1,9 @@
 # jMemorize Angular 22
 
-A small Angular 22 flash-card app based on the supplied jMemorize `lesson.xml`.
+A small Angular flash-card app based on the supplied jMemorize `lesson.xml`.
 
 ## Description 
-Our platform is web-based and works on any device with a browser, with nothing to install. By contrast, the official jMemorize is built on Java Swing, so it runs on Windows, Linux, and macOS, provided the Java Runtime Environment (JRE) is installed. The official gitub page of JMemorize is https://github.com/riadd/jMemorize 
+The platform is web-based and works on any device with a browser, with nothing to install. By contrast, the official jMemorize is built on Java Swing, so it runs on Windows, Linux, and macOS, provided the Java Runtime Environment (JRE) is installed. The official gitub page of JMemorize is https://github.com/riadd/jMemorize 
 
 Switching is simple: export your lesson file (lesson.xml) from jMemorize and import it into our platform. When you finish practicing, you can export your progress and take it with you.
 
