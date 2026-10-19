@@ -2,6 +2,11 @@
 
 A small Angular 22 flash-card app based on the supplied jMemorize `lesson.xml`.
 
+## Description 
+Our platform is web-based and works on any device with a browser, with nothing to install.
+
+Switching is simple: export your lesson file (lesson.xml) from jMemorize and import it into our platform. When you finish practicing, you can export your progress and take it with you.
+
 ## Run
 
 ```bash
