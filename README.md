@@ -1,4 +1,4 @@
-# OpenMemorize Web-Based
+# OpenMemorize
 
 A small Angular flash-card app based on the supplied jMemorize `lesson.xml`. It allows you to practice your jMemorize lessons online. 
 
